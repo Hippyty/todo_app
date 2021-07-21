@@ -1,6 +1,8 @@
-function check(users,hash) {
+function check_user(users,hash) {
     let flag = false;
-    console.log(users)
+    if(users===[]){
+        return false
+    }
     users.forEach(e => {
         if(e["hash"] == hash){
             flag = true
@@ -9,4 +11,4 @@ function check(users,hash) {
     return flag
 }
 
-module.exports = check
+module.exports = check_user
