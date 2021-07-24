@@ -1,12 +1,20 @@
 function check_user(users,hash) {
-    let flag = false;
+    let flag = 0;
     if(users===[]){
-        return false
+        return 0
     }
+    var i =0;
     users.forEach(e => {
+        if(flag!==0){
+            
+        }else{
+        
+        i++
         if(e["hash"] == hash){
-            flag = true
+            flag = i
         }
+    }
+        
     });
     return flag
 }

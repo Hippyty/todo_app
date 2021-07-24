@@ -1,0 +1,1 @@
+docker build --tag dimoyordanov/node_back_docker:1.0.0 .

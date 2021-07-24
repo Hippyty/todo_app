@@ -1,0 +1,1 @@
+docker run -d -p 3000:3000 --name api_todo dimoyordanov/node_back_docker:1.0.0
