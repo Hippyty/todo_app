@@ -14,7 +14,6 @@ import { Home } from "./modules/Home";
 
 function App() {
   const [id, setId] = useState(0)
-  const [key, setKey] = useState(false)
   const [cookies, setCookie] = useCookies(["key"])
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
@@ -22,7 +21,6 @@ function App() {
   const [wipe, setWipe] = useState(false)
   useEffect(() => {
     if(cookies["key"] != null){
-      setKey(true)
       crypto.subtle.importKey("jwk",cookies["key"],{name:"AES-GCM"},true,["encrypt"]).then((data)=>{
         console.log(data)
       })
@@ -35,8 +33,6 @@ function App() {
       ["encrypt", "decrypt"]).then(data=>{
         crypto.subtle.exportKey("jwk",data).then(kew_json_format=>{
           setCookie("key",JSON.stringify(kew_json_format))
-          
-          setKey(true)
         })})
     }
     
@@ -82,7 +78,7 @@ function App() {
             </Route>
           </Switch>
           </LoggedIn.Provider>
-          key = {key & 1}
+
         </header>
       </div>
     </Router>

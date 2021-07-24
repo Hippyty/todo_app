@@ -36,3 +36,91 @@
     transform: rotate(360deg);
   }
 }
+
+.Home_sign_in{
+  padding-left: 1vh;
+  padding-right: 1vh;
+  color: white;
+  text-decoration: none;
+  border: 0.1px white solid;
+  border-radius:15px 0px 0px 15px;
+}
+.Home_sign_up{
+  padding-right: 1vh;
+  padding-left: 1vh;
+  color: white;
+  text-decoration: none;
+  border: 0.1px white solid;
+  border-radius:0px 15px 15px 0px;
+}
+
+.Home_sign_in:hover{
+  background:#4199b1;
+}
+.Home_sign_up:hover{
+  background:#4199b1;
+}
+.title-all{
+  font-size:2em;
+}
+.small-title{
+  font-size:xx-large;
+}
+.inputer{
+  
+  border: none;
+  box-sizing: border-box;
+  color: white;
+  border-bottom: 1px white solid;
+  background: none;
+  box-shadow: none;
+}
+.inputer:focus{
+  outline: none;
+}
+.error{
+  color: red;
+}
+.Log_Reg_submit{
+  border: none;
+  color: white;
+  background: none;
+  border: white 0.5px solid;
+  border-radius: 1vh;
+  padding: 0.5vh 0.5vh 0.5vh 0.5vh;
+  margin-top: 2vh;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+}
+
+.Log_Reg_submit:hover{
+  background:#4199b1;
+}
+.dot_on {
+  height: 25px;
+  width: 25px;
+  background-color: rgb(60, 255, 0);
+  border-radius: 50%;
+  display: inline-block;
+}
+.dot_off {
+  height: 25px;
+  width: 25px;
+  background-color: rgb(255, 0, 0);
+  border-radius: 50%;
+  display: inline-block;
+}
+.plus_button{
+  border: none;
+  color: white;
+  background: none;
+  border-radius: 1vh;
+  padding-bottom: 0.35vh;
+  margin-top: 2vh;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+}

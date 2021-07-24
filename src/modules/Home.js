@@ -1,50 +1,19 @@
-import { useContext,useEffect,useState } from "react";
+import { useContext,useState } from "react";
 import { LoggedIn } from "./userContext";
 import { Link } from "react-router-dom";
 import { Formik,Form,Field } from "formik";
-
-
-
+import * as  HomeTodoRemove from "./hooks/HomeTodoRemove"
+import * as  AddTodo from "./hooks/AddTodo"
+import * as  GetTodo from "./hooks/GetTodo"
 export function Home(params) {
     const context = useContext(LoggedIn)
     const [Todoo, setTodo] = useState("")
     const [refresh,setRefresh] = useState(0)
     const [TodoList,setTodoList] = useState(null)
-    useEffect(() => {
-            console.log(1)
-            fetch('http://localhost:8080/'+context.id+"/task", {
-                    method: 'POST',
-                body:JSON.stringify({"task_hash":Todoo}),
-                headers: {
-                    'Content-Type': 'application/json;charset=utf-8',
-                }
-
-            }).then(async (response)=>{
-                var result = await response.json()
-                console.log(result)
-            })
-        return () => {
-            return
-        }
-    }, [params.cookie,context,Todoo])
-    useEffect(() => {
-            console.log(2)
-            fetch('http://localhost:8080/'+context.id+"/task", {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json;charset=utf-8',
-                }
-            
-            }).then(async (response)=>{
-                var result = await response.json()
-                setTodoList(<ul id = "ul_todo_list"> {result.tasks.map((i,index)=>{
-                    return (<li key={index} onClick> {i.hash} </li>)
-                })} </ul>)
-            })
-        return () => {
-            return
-        }
-    }, [params.cookie,context,refresh,setTodoList])
+    const [TodoListIndexRemove,setTodoListIndexRemove] = useState(-1)
+    HomeTodoRemove.HomeTodoRemoveHook(TodoListIndexRemove,TodoList,setTodoList,setTodoListIndexRemove)
+    AddTodo.AddTodoHook(context,Todoo)
+    GetTodo.GetTodoHook(context,refresh,setTodoList,setTodoListIndexRemove)
 
     console.log(context)
     let main_code = <h1>a</h1>
@@ -53,7 +22,8 @@ export function Home(params) {
                         <button onClick={()=>{
                             params.setwipe(true)
                         }}>Log out</button>
-                        <h1 id="welcome">Welcome {context.username}</h1>
+                        <h1 className="title-all">Home</h1>
+                        <h1 className="small-title" id="welcome">Welcome {context.username}</h1>
                             <Formik
                                 initialValues={{
                                     Todo: '',
@@ -64,23 +34,24 @@ export function Home(params) {
                                 >
                                 <Form>
                                     <label htmlFor="Todo">Todo to add</label>
-                                    <Field id="Todo" name="Todo" placeholder="Jane" />
-                                    <button type="submit">Submit</button>
+                                    <br/>
+                                    <Field id="Todo" className="inputer" name="Todo" placeholder="Jane" />
+                                    <button type="submit" className="plus_button"><span className="material-icons">add</span></button>
                                 </Form>
                                 </Formik>
-                        <button onClick={(e)=>{
+                        <button onClick={()=>{
                             setRefresh(refresh+1)
                         }}>Refresh</button>
                         <div id="todos">
-                            {TodoList}
+                            <ul id = "ul_todo_list">{TodoList}{console.log(TodoList)}</ul>
                         </div>
                     </div>)
     }else{
-        main_code = (<div id="component">
-        <h1>You dont have an acount please: </h1>
-        <Link to="/login">Sign in</Link>
-        <br/>
-        <Link to="/register">Sign up</Link>
+        main_code = (<div id="component" >
+        <h1 className="title-all">Home</h1>
+        <h1 className="small-title">You dont have an acount please: </h1>
+        <Link to="/login" className="Home_sign_in">Sign in </Link>
+        <Link to="/register" className="Home_sign_up">Sign up</Link>
     </div>)
     }
     return(<div>{main_code}</div>)    
