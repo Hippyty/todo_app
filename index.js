@@ -65,7 +65,6 @@ app.post("/register", function (req, res) {
     return;
   }
   accounts = save_user(accounts, req.body["hash"]);
-  console.log(accounts);
   res.send({
     end: true,
     message: "Acount was saved successfully",
@@ -146,7 +145,6 @@ app.post("/:user_id/task/completed", function (req, res) {
   }
   user_tasks = check_task(tasks, req.body["task_hash"]);
   tasks = tasks.filter(i=> i !== req.body["task_hash"])
-  console.log(req.body["task_hash"])
   res.send({end: true,
     message: "Task checked successfully"})
 });
