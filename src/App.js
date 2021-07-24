@@ -1,23 +1,25 @@
 import logo from './logo.svg';
 import './App.css';
-import { createContext, useEffect,useState } from 'react';
+import { useEffect,useState } from 'react';
 import {FormRegAndLog} from "./modules/formregandlog.js"
 import { useCookies } from 'react-cookie';
 import {
   BrowserRouter as Router,
   Switch,
-  Route,
-  Link
+  Route
 } from "react-router-dom";
+import { LoggedIn } from "./modules/userContext";
+import { Home } from "./modules/Home";
 
-function HomeWithoutLogin(){
 
-}
-const context = createContext()
 function App() {
+  const [id, setId] = useState(0)
   const [key, setKey] = useState(false)
   const [cookies, setCookie] = useCookies(["key"])
-  const [state, setstate] = useState(null)
+  const [username, setUsername] = useState("")
+  const [password, setPassword] = useState("")
+  const [userOn, setUserOn] = useState(false)
+  const [wipe, setWipe] = useState(false)
   useEffect(() => {
     if(cookies["key"] != null){
       setKey(true)
@@ -38,42 +40,49 @@ function App() {
         })})
     }
     
-     
-    
-    
   //key
   
   /* 
-
-  let decrypted = await window.crypto.subtle.decrypt(
-        {
-          name: "AES-GCM",
-          iv: iv
-        },
-        key,
-        ciphertext
-      ); */
+*/
   }, [cookies,setCookie])
+
+  useEffect(() => {
+    if(username && password && id){
+      setUserOn(true)
+    }
+  }, [username,password,setPassword,setUsername,userOn,setUserOn,id])
+  useEffect(() => {
+    if(wipe!==false){
+      setPassword("")
+      setUsername("")
+      setUserOn(false)
+      setWipe(false)
+      setId(0)
+    }
+    
+  }, [username,password,setPassword,setUsername,userOn,setUserOn,wipe,setWipe,id,setId])
   return (
     <Router>
       <div className="App">
         <header className="App-header">
+        <LoggedIn.Provider value={{username:username,
+                                  password:password,
+                                  logged_in:userOn,id:id}}
+                                  > 
           <Switch>
-            <Route path="/login">
+            <Route path="/:link">
               <img src={logo} className="App-logo" alt="logo" />
-              <h1>Login</h1>
-              <FormRegAndLog cookie = {cookies}/>
-              <Link to="/register">Sign up</Link>
-              key = {key & 1}
+              <FormRegAndLog cookie = {cookies} setUsername = {setUsername} setPassword = {setPassword} setId = {setId}/>
+              {/* <Link to="/register">Sign up</Link>
+              <Link to="/">Home</Link> */}
             </Route>
-            <Route path="/register">
+            <Route path="/">
               <img src={logo} className="App-logo" alt="logo" />
-              <h1>Register</h1>
-              <FormRegAndLog cookie = {cookies}/>
-              <Link to="/login">Sign in</Link>
-              key = {key & 1}
+              <Home setwipe={setWipe}/>
             </Route>
           </Switch>
+          </LoggedIn.Provider>
+          key = {key & 1}
         </header>
       </div>
     </Router>
