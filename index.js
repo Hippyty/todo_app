@@ -112,6 +112,13 @@ app.post("/:user_id/task", function (req, res) {
     });
     return;
   }
+  if(req.body["task_hash"] === ""){
+    res.json({
+      end: false,
+      message: "No task",
+    });
+    return;
+  }
   save_task(tasks, req.body["task_hash"], req.params["user_id"]);
   res.send({
     end: true,
@@ -138,7 +145,8 @@ app.post("/:user_id/task/completed", function (req, res) {
     return;
   }
   user_tasks = check_task(tasks, req.body["task_hash"]);
-  tasks = tasks.filter(i,index=> index !== user_tasks)
+  tasks = tasks.filter(i=> i !== req.body["task_hash"])
+  console.log(req.body["task_hash"])
   res.send({end: true,
     message: "Task checked successfully"})
 });
