@@ -3,8 +3,8 @@ const save_user = require("./modules/save_user.js");
 const check_user = require("./modules/check_user.js");
 const save_task = require("./modules/save_task.js");
 const get_task = require("./modules/get_task.js");
-const check_task = require("./modules/check_task.js");
 const same_task_check = require("./modules/same_task_check.js");
+const completed = require("./modules/completed");
 const app = express();
 const port = 8080;
 /**
@@ -24,13 +24,10 @@ const port = 8080;
  * {
  * task_hash:id
  * id:Int
+ * completed:BOOL
+ * user_id
  * }
  *
- * 
- * 
- * 
- * 
- * 
  * /tasks/:user_id
 
 
@@ -122,7 +119,7 @@ app.post("/:user_id/task", function (req, res) {
   res.send({
     end: true,
     message: "Task was saved successfully",
-    number: tasks[tasks.length - 1]["id"],
+    number: tasks[tasks.length - 1].id,
   });
 });
 
@@ -136,15 +133,21 @@ app.get("/:user_id/task", function (req, res) {
 });
 
 app.post("/:user_id/task/completed", function (req, res) {
-  if (req.body["task_hash"] == null) {
+  if (req.body["id"] == null) {
     res.json({
       end: false,
-      message: "Hash was not sent",
+      message: "id was not sent",
     });
     return;
   }
-  user_tasks = check_task(tasks, req.body["task_hash"]);
-  tasks = tasks.filter(i=> i !== req.body["task_hash"])
+  var id = 0
+  tasks.forEach((e,index)=>{
+    if(e.id == req.body["id"]){
+      id = index
+    }
+  })
+  tasks[id].completed = true
+  tasks = completed(tasks,req)
   res.send({end: true,
     message: "Task checked successfully"})
 });
